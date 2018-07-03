@@ -1,6 +1,10 @@
 ﻿# csu_face_recognition
 
+python = 3.6, 根据自己的环境配置
+
 # face recognition for images with blocked
+
+本地新建data目录，与src同级，用于存放训练数据和测试数据
 
 * data：数据
 
