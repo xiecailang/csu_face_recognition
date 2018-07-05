@@ -1,5 +1,6 @@
 import csv
 import face_recognition
+
 #load trainning files
 csv_reader = csv.reader(open('../data/train.csv', encoding='utf-8'))
 train_imgs = []
