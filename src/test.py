@@ -16,6 +16,7 @@ try:
             train_imgs.append(img)
             train_img_codings.append(img_code)
             train_labels.append(item[1])
+            print(item[1])
 except IndexError:
     print("I wasn't able to locate any faces in at least one of the images. Check the image files. Aborting...")
 #load test files
@@ -33,6 +34,7 @@ try:
             test_gallery_imgs.append(img)
             test_img_codings.append(face_recognition.face_encodings(img, face_locations)[0])
             test_gallery_labels.append(item[1])
+            print(item[1])
 except IndexError:
     print("I wasn't able to locate any faces in at least one of the images. Check the image files. Aborting...")
 
@@ -43,7 +45,7 @@ pre_lst = []
 
 for i in range(0,len(test_img_codings)):
     distances = face_recognition.face_distance(train_img_codings, test_img_codings[i])
-
+    print(min(distances))
 
 
 
