@@ -1,11 +1,13 @@
 import csv
 import face_recognition
-from PIL import Image
-#load trainning files
+import pickle
+
+"""
 csv_reader = csv.reader(open('../data/train.csv', encoding='utf-8'))
 train_imgs = []
 train_img_codings = []
 train_labels = []
+count = 0
 try:
     for item in csv_reader:
         img_path = '%s%s' % ('../data/train/', item[0])
@@ -16,9 +18,16 @@ try:
             train_imgs.append(img)
             train_img_codings.append(img_code)
             train_labels.append(item[1])
-            print(item[1])
+            print('training', item[1])
 except IndexError:
     print("I wasn't able to locate any faces in at least one of the images. Check the image files. Aborting...")
+
+# 序列化
+with open('../data/train_codings.pkl', 'wb') as f:
+    pickle.dump(train_img_codings, f)
+with open('../data/train_labels.pkl', 'wb') as f:
+    pickle.dump(train_labels, f)
+"""
 #load test files
 test_gallery_imgs = []
 test_img_codings = []
@@ -34,28 +43,13 @@ try:
             test_gallery_imgs.append(img)
             test_img_codings.append(face_recognition.face_encodings(img, face_locations)[0])
             test_gallery_labels.append(item[1])
-            print(item[1])
+            print('testing', item[1])
 except IndexError:
     print("I wasn't able to locate any faces in at least one of the images. Check the image files. Aborting...")
 
-#compare
-pre_labels = []
-count = 0
-pre_lst = []
+# 序列化
+with open('../data/test_codings.pkl', 'wb') as f:
+    pickle.dump(test_img_codings, f)
+with open('../data/test_labels.pkl', 'wb') as f:
+    pickle.dump(test_gallery_labels, f)
 
-for i in range(0,len(test_img_codings)):
-    distances = face_recognition.face_distance(train_img_codings, test_img_codings[i])
-    print(min(distances))
-
-
-
-for i in range(0,len(test_gallery_imgs)):
-    t_img = test_gallery_imgs[i]
-    pre_res = face_recognition.compare_faces(train_imgs,t_img)
-    for j in range(0,len(pre_res)):
-        if pre_res[j] == True:
-            pre_labels.append(train_labels[j])
-            if(train_labels[j] == test_gallery_labels[i]):
-                count = count + 1
-
-print(count, count/len(test_gallery_imgs))
